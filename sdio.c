@@ -17,6 +17,7 @@
 #include <asm/mach-types.h>
 #include <linux/of.h>
 #include <linux/of_irq.h>
+#include <linux/interrupt.h>
 
 #include "xradio.h"
 #include "sdio.h"
@@ -142,7 +143,7 @@ static int xradio_probe_of(struct sdio_func *func)
 		return -EINVAL;
 	}
 
-	devm_request_irq(dev, irq, sdio_irq_handler, 0, "xradio", func);
+	devm_request_threaded_irq(dev, irq, sdio_irq_handler, NULL, 0, "xradio", func);
 
 	return 0;
 }
